@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>ShadowSocks-越墙 | Zhuzi&#39; Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="了解 ShadowSocksShadowSocks 是做什么的？  一个可穿透防火墙的快速代理  ShadowSocks 如何获取？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ShadowSocks-越墙">
+<meta property="og:url" content="http://yoursite.com/2018/05/19/ShadowSocks-%E8%B6%8A%E5%A2%99%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="Zhuzi&#39; Note">
+<meta property="og:description" content="了解 ShadowSocksShadowSocks 是做什么的？  一个可穿透防火墙的快速代理  ShadowSocks 如何获取？">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-05-19T13:55:41.000Z">
+<meta property="article:modified_time" content="2018-08-12T15:18:50.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="ShadowSocks">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Zhuzi&#39; Note" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Zhuzi&#39; Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-ShadowSocks-越墙配置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/19/ShadowSocks-%E8%B6%8A%E5%A2%99%E9%85%8D%E7%BD%AE/" class="article-date">
+  <time datetime="2018-05-19T13:55:41.000Z" itemprop="datePublished">2018-05-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BF%BB%E5%A2%99/">翻墙</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ShadowSocks-越墙
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="了解-ShadowSocks"><a href="#了解-ShadowSocks" class="headerlink" title="了解 ShadowSocks"></a>了解 ShadowSocks</h2><p>ShadowSocks 是做什么的？</p>
+<blockquote>
+<p>一个可穿透防火墙的快速代理</p>
+</blockquote>
+<p>ShadowSocks 如何获取？</p>
+<a id="more"></a>
+
+<p>ShadowSocks 分服务端和客户端，在服务端部署 ShadowSocks 后，使用客户端 ShadowSocks 使用代理服务。</p>
+<h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><p>ShadowSocks部署如下，可以去 <a href="https://teddysun.com/486.html" target="_blank" rel="noopener">秋水逸冰 Shadowsocks 一键安装脚本（四合一）</a> 了解更多。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate -O shadowsocks-all.sh https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;teddysun&#x2F;shadowsocks_install&#x2F;master&#x2F;shadowsocks-all.sh</span><br><span class="line">chmod +x shadowsocks-all.sh</span><br><span class="line">.&#x2F;shadowsocks-all.sh 2&gt;&amp;1 | tee shadowsocks-all.log</span><br></pre></td></tr></table></figure>
+
+<p>ShadowSocks有多个版本（Python, libev, Go, Nodejs），任选一个:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Which Shadowsocks server you&#39;d select:</span><br><span class="line">1.Shadowsocks-Python</span><br><span class="line">2.ShadowsocksR</span><br><span class="line">3.Shadowsocks-Go</span><br><span class="line">4.Shadowsocks-libev</span><br><span class="line">Please enter a number (default 1):</span><br></pre></td></tr></table></figure>
+
+<p>选择后，设置密码和端口号，接下来如果出现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Congratulations, your_shadowsocks_version install completed!</span><br><span class="line">Your Server IP        :your_server_ip</span><br><span class="line">Your Server Port      :your_server_port</span><br><span class="line">Your Password         :your_password</span><br><span class="line">Your Encryption Method:your_encryption_method</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Welcome to visit:https:&#x2F;&#x2F;teddysun.com&#x2F;486.html</span><br><span class="line">Enjoy it!</span><br></pre></td></tr></table></figure>
+<p>Binggo! 安装成功。</p>
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p>ShadowSocks 几乎覆盖了所有的终端设备：PC、Mac、Android、iOS及Linux等。</p>
+<p>Windows、Mac OS X 和 Linux 均可使用命令安装:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure>
+
+<p>Android</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">export ANDROID_HOME&#x3D;&#x2F;path&#x2F;to&#x2F;android-sdk # your android-sdk path</span><br><span class="line">export ANDROID_NDK_HOME&#x3D;&#x2F;path&#x2F;to&#x2F;android_ndk # default: $ANDROID_HOME&#x2F;ndk-bundle</span><br><span class="line">export GOROOT_BOOTSTRAP&#x3D;&#x2F;path&#x2F;to&#x2F;go</span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;shadowsocks&#x2F;shadowsocks-android.git</span><br><span class="line">cd shadowsocks-android</span><br><span class="line">git submodule update --init --recursive</span><br><span class="line">[.&#x2F;gradlew][gradlew.bat] clean assembleDebug</span><br></pre></td></tr></table></figure>
+
+<p>编译成功，即可安装生成的apk包，设置服务端、端口、密码和加密方式（与服务端设置相同），从而越墙而生！</p>
+<p>如果vps 速度不理想，可以使用bbr</p>
+<blockquote>
+<p>TCP BBR 是 Google 开源的 拥塞控制算法，类似锐速的单边加速工具</p>
+</blockquote>
+<p>在 vps 上安装即可，参考 <a href="https://teddysun.com/489.html" target="_blank" rel="noopener">一键安装最新内核并开启 BBR 脚本</a>。</p>
+<p>以root身份登录，运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https:&#x2F;&#x2F;github.com&#x2F;teddysun&#x2F;across&#x2F;raw&#x2F;master&#x2F;bbr.sh</span><br><span class="line">chmod +x bbr.sh</span><br><span class="line">.&#x2F;bbr.sh</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后，会提示需要重启 VPS，输入 y 并回车后重启。重启后，执行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep bbr</span><br></pre></td></tr></table></figure>
+
+<p>返回值有 tcp_bbr 模块即说明bbr已启动。从而提升越墙体验。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/19/ShadowSocks-%E8%B6%8A%E5%A2%99%E9%85%8D%E7%BD%AE/" data-id="ckcdg9qtg000a16mzb4tsg23p" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ShadowSocks/" rel="tag">ShadowSocks</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/13/%E5%B8%B8%E7%94%A8%E6%9F%A5%E6%89%BE%E5%91%BD%E4%BB%A4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          常用查找命令
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/18/%E5%B8%B8%E7%94%A8%E5%8F%8D%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E7%94%A8%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">常用反编译工具用法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/capture/">capture</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%8F%E8%AE%AE/">协议</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BF%BB%E5%A2%99/">翻墙</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%86%E5%90%91/">逆向</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AndroidStudio/" rel="tag">AndroidStudio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apktool/" rel="tag">Apktool</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Package-Installer/" rel="tag">Package Installer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Package-Manager/" rel="tag">Package Manager</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ShadowSocks/" rel="tag">ShadowSocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UDP/" rel="tag">UDP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/adb/" rel="tag">adb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/csv/" rel="tag">csv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dex2jar-jd-gui/" rel="tag">dex2jar jd-gui</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/find/" rel="tag">find</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gzip/" rel="tag">gzip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jadx/" rel="tag">jadx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nmap/" rel="tag">nmap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/service/" rel="tag">service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/source-code/" rel="tag">source code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/system/" rel="tag">system</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typedef/" rel="tag">typedef</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wireshark-%E6%8A%93%E5%8C%85/" rel="tag">wireshark, 抓包</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zip/" rel="tag">zip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%98%E9%87%8F/" rel="tag">变量</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9B%91%E5%90%AC/" rel="tag">监听</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A9%BA%E6%A0%BC/" rel="tag">空格</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%93%E6%9E%84%E4%BD%93/" rel="tag">结构体</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E7%9B%91%E5%90%AC/" rel="tag">网络监听</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AndroidStudio/" style="font-size: 10px;">AndroidStudio</a> <a href="/tags/Apktool/" style="font-size: 10px;">Apktool</a> <a href="/tags/Package-Installer/" style="font-size: 10px;">Package Installer</a> <a href="/tags/Package-Manager/" style="font-size: 10px;">Package Manager</a> <a href="/tags/ShadowSocks/" style="font-size: 10px;">ShadowSocks</a> <a href="/tags/UDP/" style="font-size: 10px;">UDP</a> <a href="/tags/adb/" style="font-size: 20px;">adb</a> <a href="/tags/csv/" style="font-size: 10px;">csv</a> <a href="/tags/dex2jar-jd-gui/" style="font-size: 10px;">dex2jar jd-gui</a> <a href="/tags/find/" style="font-size: 10px;">find</a> <a href="/tags/gzip/" style="font-size: 10px;">gzip</a> <a href="/tags/jadx/" style="font-size: 10px;">jadx</a> <a href="/tags/nmap/" style="font-size: 10px;">nmap</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/source-code/" style="font-size: 10px;">source code</a> <a href="/tags/system/" style="font-size: 10px;">system</a> <a href="/tags/typedef/" style="font-size: 10px;">typedef</a> <a href="/tags/wireshark-%E6%8A%93%E5%8C%85/" style="font-size: 10px;">wireshark, 抓包</a> <a href="/tags/zip/" style="font-size: 10px;">zip</a> <a href="/tags/%E5%8F%98%E9%87%8F/" style="font-size: 10px;">变量</a> <a href="/tags/%E7%9B%91%E5%90%AC/" style="font-size: 10px;">监听</a> <a href="/tags/%E7%A9%BA%E6%A0%BC/" style="font-size: 10px;">空格</a> <a href="/tags/%E7%BB%93%E6%9E%84%E4%BD%93/" style="font-size: 10px;">结构体</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E7%9B%91%E5%90%AC/" style="font-size: 10px;">网络监听</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/08/test-my-site/">test_my_site</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/08/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2019/11/04/nmap-%E5%B8%B8%E7%94%A8%E7%9A%84-options/">nmap 常用的 options</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/30/Wireshark-filter/">Wireshark filter</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/20/%E7%BD%91%E7%BB%9C%E7%9B%91%E5%90%AC%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%8C%85%E8%A7%A3%E5%AF%86/">网络监听与数据包解密</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
