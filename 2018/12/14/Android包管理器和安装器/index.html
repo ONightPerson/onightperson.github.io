@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Package Manager,Package Installer," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="几个问题  什么是包管理器和包安装器？ APK文件存储在什么地方？ APK 安装过程的具体细节？ 包管理器如何存储数据? 如何寻找包管理器和包安装器的源码？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android包管理器和安装器">
+<meta property="og:url" content="http://yoursite.com/2018/12/14/Android%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8%E5%92%8C%E5%AE%89%E8%A3%85%E5%99%A8/index.html">
+<meta property="og:site_name" content="Zhuzi&#39; Note">
+<meta property="og:description" content="几个问题  什么是包管理器和包安装器？ APK文件存储在什么地方？ APK 安装过程的具体细节？ 包管理器如何存储数据? 如何寻找包管理器和包安装器的源码？">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2018/12/14/5c13a23c1cb76.jpg">
+<meta property="article:published_time" content="2018-12-14T11:47:13.000Z">
+<meta property="article:modified_time" content="2018-12-14T16:24:55.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Package Manager">
+<meta property="article:tag" content="Package Installer">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2018/12/14/5c13a23c1cb76.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/14/Android包管理器和安装器/"/>
+
+
+
+
+
+  <title>Android包管理器和安装器 | Zhuzi' Note</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zhuzi' Note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/14/Android%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8%E5%92%8C%E5%AE%89%E8%A3%85%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhuzi' Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android包管理器和安装器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-14T19:47:13+08:00">
+                2018-12-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>几个问题</p>
+<blockquote>
+<p>什么是包管理器和包安装器？</p>
+<p>APK文件存储在什么地方？</p>
+<p>APK 安装过程的具体细节？</p>
+<p>包管理器如何存储数据?</p>
+<p>如何寻找包管理器和包安装器的源码？</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="什么是包管理器和包安装器"><a href="#什么是包管理器和包安装器" class="headerlink" title="什么是包管理器和包安装器"></a>什么是包管理器和包安装器</h2><ul>
+<li>包安装器是Android 交互式安装普通包的默认应用程序。</li>
+<li>包安装器提供用户界面来管理应用程序/包。</li>
+<li>包安装器调用 <strong>InstallAppProgress</strong> 界面来接收用户指令， <strong>InstallAppProgress</strong> 将通过 <strong>installd</strong> 调用 Package Manager Service 来安装应用包，其源码在 *<Android Source>/packages/apps/PackageInstaller*。</li>
+</ul>
+<blockquote>
+<p>PackageManagerService通过Socket方式访问<strong>installd</strong> 服务进程。具体详情 <a href="https://blog.csdn.net/yangwen123/article/details/11104397" target="_blank" rel="noopener">Android安装服务installd源码分析</a>。</p>
+</blockquote>
+<p>包管理器提供了是管理应用安装，卸载及升级的API。当我们安装APK文件，包管理器解析apk文件并展示确认按钮。当用户按下确认键时，包管理器将调用 <em>installPackage</em> 方法，该方法携带 4 个参数，包括<em>uri</em>, <em>installFlags</em>, <em>observer</em>, <em>installPackageName*。包管理器启动名为 *package</em> 的服务，所有安装细节将在该服务中进行。Package Manager Service 运行在 <strong>system_service</strong> 进程，<em>installd</em> 运行在原生进程。两者都在系统开启时运行。</p>
+<h2 id="APK文件存储在什么地方"><a href="#APK文件存储在什么地方" class="headerlink" title="APK文件存储在什么地方"></a>APK文件存储在什么地方</h2><ol>
+<li>预安装应用APK存储在 <em>/system/app/</em> 下。</li>
+<li>用户安装的APK存储在 <em>/data/app/</em> 下</li>
+<li>包管理器在 <em>/data/data/package name/</em> 路径下存储 <em>database</em>, <em>shared preference</em>,本地库及缓存数据。</li>
+</ol>
+<h2 id="APK-安装过程的具体细节"><a href="#APK-安装过程的具体细节" class="headerlink" title="APK 安装过程的具体细节"></a>APK 安装过程的具体细节</h2><p><img src="https://i.loli.net/2018/12/14/5c13a23c1cb76.jpg" alt="安装细节"></p>
+<h2 id="包管理器如何存储数据"><a href="#包管理器如何存储数据" class="headerlink" title="包管理器如何存储数据"></a>包管理器如何存储数据</h2><p>包管理器在 <em>/data/system/</em> 的三个文件存储了应用信息，这三个文件分别为 <em>package.xml</em>、<em>package.list</em>、<em>packages-stoped.xml</em>。</p>
+<ol>
+<li><p>package.xml</p>
+<p> 该文件存储了 2 样东西：</p>
+<p> 1.1 permission</p>
+<p> permission内容存储在<permission>标签下。每个 permisson 有三个属性：<em>name</em>, <em>package</em>, <em>protection*。其中 *name</em> 属性是我们在 <em>AndroidManifest.xml</em> 用到的。</p>
+<p> 1.2 <em>package</em> </p>
+<p> <em>package</em> 属性表示权限所属包。package 标签包含了以下属性和几个子标签：</p>
+<p> 1.2.1 属性</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">Sr</th>
+<th align="center">Attribute Name</th>
+<th align="center">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">name</td>
+<td align="center">package name</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">codePath</td>
+<td align="center">APK file installation location(/system/app/ or /data/app/)</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">nativeLibraryPath</td>
+<td align="center">native library(*.so file) default path is /data/data/&lt;package name&gt;/lib/</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">flag</td>
+<td align="center">Store ApplicationInfo Flags<br> <a href="http://developer.android.com/reference/android/content/pm/ApplicationInfo.html" target="_blank" rel="noopener">ApplicationInfo</a></td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">ft</td>
+<td align="center">timestamp in hex format</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">lt</td>
+<td align="center">timestamp in hex format of first time installation</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">ut</td>
+<td align="center">timestamp in hex format of last update</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">version</td>
+<td align="center">Version Code from AndroidManifest.xml file <br><a href="https://developer.android.com/guide/topics/manifest/manifest-element#vcode" target="_blank" rel="noopener">manifest</a></td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">sharedUserId</td>
+<td align="center">The name of Linux user ID that will be shared with other applications, It is same parameter which we define in AndroidManifest.xml <br> <a href="http://developer.android.com/guide/topics/manifest/manifest-element.html#uid" target="_blank" rel="noopener">uid</a></td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">userId</td>
+<td align="center">The name of a linux user ID</td>
+</tr>
+</tbody></table>
+<pre><code>1.2.2 子标签
+
+* sigs 签名信息
+* count 表示 *cert*标签的数量
+* cert 包含认证密钥
+* index 表示证书的全局索引
+* perms 开发者在 *AndroidManifest.xml* 文件中声明的权限列表</code></pre><ol start="2">
+<li>packages.list<br>包含package name、userid、flag和数据目录的简单text文件。提供了快速查看安装包的方式。</li>
+<li>packages-stoped.xml<br>此文件包含已停止状态的包列表</li>
+</ol>
+<h2 id="如何寻找包管理器和包安装器的源码"><a href="#如何寻找包管理器和包安装器的源码" class="headerlink" title="如何寻找包管理器和包安装器的源码"></a>如何寻找包管理器和包安装器的源码</h2><ol>
+<li><p>包管理器</p>
+<ul>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/services/java/com/android/server/pm/Settings.java" target="_blank" rel="noopener">Settings.java</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/services/java/com/android/server/pm/PackageManagerService.java" target="_blank" rel="noopener">PackageManagerService.java</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/core/java/android/content/pm/IPackageManager.aidl" target="_blank" rel="noopener">IPackageManager.aidl</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/services/java/com/android/server/pm/PackageSignatures.java" target="_blank" rel="noopener">PackageSignatures.java </a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/services/java/com/android/server/pm/PreferredActivity.java" target="_blank" rel="noopener">PreferredActivity.java</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/services/java/com/android/server/PreferredComponent.java" target="_blank" rel="noopener">PreferredComponent.java</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/core/java/android/content/IntentFilter.java" target="_blank" rel="noopener">IntentFilter.java</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/core/java/android/content/pm/PackageParser.java" target="_blank" rel="noopener">PackageParser.java</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/services/java/com/android/server/pm/Installer.java" target="_blank" rel="noopener">Installer.java</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/core/java/com/android/internal/app/IMediaContainerService.aidl" target="_blank" rel="noopener">IMediaContainerService.aidl</a></li>
+<li><a href="https://android.googlesource.com/platform/frameworks/base/+/483f3b06ea84440a082e21b68ec2c2e54046f5a6/packages/DefaultContainerService/src/com/android/defcontainer/DefaultContainerService.java" target="_blank" rel="noopener">DefaultContainerService.java</a></li>
+</ul>
+</li>
+<li><p>包安装器</p>
+<ul>
+<li><a href="https://android.googlesource.com/platform/packages/apps/PackageInstaller/+/47fe118e0178e9d72c98073ff588ee5cf353258e/src/com/android/packageinstaller/PackageInstallerActivity.java" target="_blank" rel="noopener">PackageInstallerActivity.java</a></li>
+<li><a href="https://android.googlesource.com/platform/packages/apps/PackageInstaller/+/47fe118e0178e9d72c98073ff588ee5cf353258e/src/com/android/packageinstaller/PackageUtil.java" target="_blank" rel="noopener">PackageUtil.java</a></li>
+<li><a href="https://android.googlesource.com/platform/packages/apps/PackageInstaller/+/47fe118e0178e9d72c98073ff588ee5cf353258e/src/com/android/packageinstaller/InstallAppProgress.java" target="_blank" rel="noopener">InstallAppProgress.java</a></li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Package-Manager/" rel="tag"># Package Manager</a>
+          
+            <a href="/tags/Package-Installer/" rel="tag"># Package Installer</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/08/define%E4%B8%8Etypedef%E7%9A%84%E5%BC%82%E5%90%8C/" rel="next" title="#define与typedef的异同">
+                <i class="fa fa-chevron-left"></i> #define与typedef的异同
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/15/Android%E6%BA%90%E7%A0%81%E4%B8%8B%E8%BD%BD-%E5%AF%BC%E5%85%A5AndroidStudio/" rel="prev" title="Android源码下载 && 导入AndroidStudio">
+                Android源码下载 && 导入AndroidStudio <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是包管理器和包安装器"><span class="nav-number">1.</span> <span class="nav-text">什么是包管理器和包安装器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#APK文件存储在什么地方"><span class="nav-number">2.</span> <span class="nav-text">APK文件存储在什么地方</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#APK-安装过程的具体细节"><span class="nav-number">3.</span> <span class="nav-text">APK 安装过程的具体细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#包管理器如何存储数据"><span class="nav-number">4.</span> <span class="nav-text">包管理器如何存储数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何寻找包管理器和包安装器的源码"><span class="nav-number">5.</span> <span class="nav-text">如何寻找包管理器和包安装器的源码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
