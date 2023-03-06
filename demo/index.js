@@ -5,9 +5,7 @@ function callHandler(name, data, callback) {
   callbacks[id] = callback;
   window.bridge.send(name, JSON.stringify(data), id);
 }
-window.bridge.onReceive = function(callbackId, result) {
-  console.log('callbackId', callbackId, 'result', result);
-}
+
 window.onload = function () {
   callHandler("notify", { data: { name: "liubaozhu", addr: "suiping" }}, 
   {
@@ -17,6 +15,9 @@ window.onload = function () {
   let result;
   if (window.bridge) {
     result = window.bridge.back();
+    window.bridge.onReceive = function(callbackId, result) {
+      console.log('callbackId', callbackId, 'result', result);
+    }
   } else {
     result = "Hello, Hybrid World";
   }
